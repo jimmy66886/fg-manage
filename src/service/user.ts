@@ -17,12 +17,26 @@ export default function () {
     /**
      * 获取所有的用户
      */
-    async function getAllUser() {
+    async function getAllUser(userDto) {
         const res = await axios({
-            method: 'GET',
-            url: '/user/get'
+            method: 'POST',
+            url: '/user/get',
+            data: userDto
         })
+        return res
     }
 
-    return { login }
+    /**
+     * 改变用户状态
+     */
+    async function changeStatus(user) {
+        const res = await axios({
+            method: 'POST',
+            url: '/user/changeStatus',
+            data: user
+        })
+        return res
+    }
+
+    return { login, getAllUser, changeStatus }
 }

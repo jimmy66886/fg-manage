@@ -23,12 +23,9 @@
 
 <script lang="ts" setup>
 import user from '@/service/user';
-import recipe from '@/service/recipe';
 import { ref } from 'vue';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElLoading } from 'element-plus';
 import router from '@/router';
-
-const { getRecipeList } = recipe()
 const { login } = user()
 
 let imgUrls = ref([
@@ -43,9 +40,16 @@ let userLoginDto = ref({
 })
 
 const userLogin = async () => {
+  // 弹出加载框
+  const loading = ElLoading.service({
+    lock: true,
+    text: 'Loading',
+    background: 'rgba(0, 0, 0, 0.7)',
+  })
   const res = await login(userLoginDto.value)
   console.log('得到的结果为:', res.data)
   // 将返回结果存入本地缓存
+  loading.close()
   ElMessage({
     message: '登录成功',
     type: 'success',
@@ -54,12 +58,6 @@ const userLogin = async () => {
   localStorage.setItem('userInfo', JSON.stringify(res.data))
   router.push('/menu/index')
 }
-
-const getList = async () => {
-  const res = await getRecipeList()
-  console.log("得到的结果为:", res.data)
-}
-
 </script>
 
 <style scoped>

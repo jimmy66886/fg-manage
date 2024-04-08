@@ -1,7 +1,5 @@
 <template>
-    <div class="app">
-        
-    </div>
+    分类管理
 </template>
 
 <script lang="ts" setup>
