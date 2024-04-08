@@ -19,6 +19,9 @@
 </template>
 
 <script lang="ts" setup>
+import router from '@/router';
+import { ElMessage } from 'element-plus';
+import { onBeforeMount } from 'vue';
 import { useRoute } from 'vue-router';
 const route = useRoute();
 
@@ -30,6 +33,20 @@ const menuItems = [
 ];
 
 const currentRoute = menuItems.find((item) => item.route === route.path)?.route || '';
+
+// 进入页面时判断是否登录
+onBeforeMount(() => {
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    if (userInfo === null) {
+        ElMessage({
+            message: '请先登录',
+            type: 'error',
+            plain: true
+        })
+        router.push('/')
+    }
+})
+
 </script>
 
 <style scoped>
