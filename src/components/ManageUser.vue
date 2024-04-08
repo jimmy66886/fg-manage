@@ -1,6 +1,7 @@
 <template>
   <div class="searchBox">
-    <el-input clearable type="text" v-model.trim="nickName" placeholder="用户名查找" @clear="resetCondition" @keyup.enter="searchByNickName">
+    <el-input clearable type="text" v-model.trim="nickName" placeholder="用户名查找" @clear="resetCondition"
+      @keyup.enter="searchByNickName">
       <el-icon>
         <Search />
       </el-icon></el-input>
@@ -25,8 +26,8 @@
   </el-table>
   <div class="pageBox">
     <el-pagination v-model:current-page="page" v-model:page-size="pageSize" :page-sizes="[5, 10]"
-    layout="sizes, prev, pager, next" :total="total" @size-change="handleSizeChange"
-    @current-change="handleCurrentChange" /> <span>共{{ total }}条数据</span>
+      layout="sizes, prev, pager, next" :total="total" @size-change="handleSizeChange"
+      @current-change="handleCurrentChange" /> <span>共{{ total }}条数据</span>
   </div>
 </template>
 
@@ -47,7 +48,7 @@ let page = ref(1)
 let pageSize = ref(5)
 
 function resetCondition() {
-  page.vaule = 1
+  page.value = 1
   pageSize.value = 5
   nickName.value = ''
   fetchUserData(page.value, pageSize.value)
@@ -103,8 +104,7 @@ onBeforeMount(async () => {
 </script>
 
 <style scoped>
-
-.pageBox{
+.pageBox {
   display: flex;
   align-items: center;
   color: gray;
