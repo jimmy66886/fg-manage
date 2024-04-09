@@ -46,17 +46,21 @@ const userLogin = async () => {
     text: 'Loading',
     background: 'rgba(0, 0, 0, 0.7)',
   })
-  const res = await login(userLoginDto.value)
-  console.log('得到的结果为:', res.data)
-  // 将返回结果存入本地缓存
-  loading.close()
-  ElMessage({
-    message: '登录成功',
-    type: 'success',
-    plain: true
-  })
-  localStorage.setItem('userInfo', JSON.stringify(res.data))
-  router.push('/menu/index')
+  try {
+
+    const res = await login(userLoginDto.value)
+    console.log('得到的结果为:', res.data)
+    ElMessage({
+      message: '登录成功',
+      type: 'success',
+      plain: true
+    })
+    // 将返回结果存入本地缓存
+    localStorage.setItem('userInfo', JSON.stringify(res.data))
+    router.push('/menu/index')
+  } finally {
+    loading.close()
+  }
 }
 </script>
 

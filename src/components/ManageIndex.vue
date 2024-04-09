@@ -1,10 +1,21 @@
 <template>
-    首页
-    <el-popconfirm title="确定退出登录?" @confirm="exit">
-        <template #reference>
-            <el-button type="primary">退出登录</el-button>
-        </template>
-    </el-popconfirm>
+    <div class="title">
+        <span>首页</span>
+        <div class="exit">
+            <el-dropdown>
+                <el-button>
+                    个人中心<el-icon class="el-icon--right"><arrow-down /></el-icon>
+                </el-button>
+                <template #dropdown>
+                    <el-dropdown-menu>
+                        <el-dropdown-item @click="updatePwd">修改密码</el-dropdown-item>
+                        <el-dropdown-item @click="toProject">项目地址</el-dropdown-item>
+                        <el-dropdown-item @click="exit" divided>退出登录</el-dropdown-item>
+                    </el-dropdown-menu>
+                </template>
+            </el-dropdown>
+        </div>
+    </div>
     <hr>
     <!-- 数据展示区 -->
     <div class="outBox">
@@ -14,15 +25,21 @@
             <span>今日数据</span>
             <div class="todayIncrement">
                 <!-- 当日新增数量 -->
-                <div>
+                <div class="item">
                     <!-- 当日新增菜谱数 -->
-                    <span>今日新增菜谱数</span>
-                    <span style="font-size: 30px;">10个</span>
+                    <img src="@/assets/icon_recipe.png">
+                    <div class="content">
+                        <span>今日新增菜谱数</span>
+                        <span style="font-size: 30px;">{{ todayVo.recipeAddition }}个</span>
+                    </div>
                 </div>
-                <div>
-                    <!-- 当日新增评论数 -->
-                    <span>今日新增评论数</span>
-                    <span style="font-size: 30px;">50个</span>
+                <div class="item">
+                    <img src="@/assets/新增评论.png">
+                    <div class="content">
+                        <!-- 当日新增评论数 -->
+                        <span>今日新增用户数</span>
+                        <span style="font-size: 30px;">{{ todayVo.userAddition }}个</span>
+                    </div>
                 </div>
             </div>
             <div class="todayBest">
@@ -30,16 +47,18 @@
                 <div>
                     <!-- 当日点赞组多的菜谱介绍 -->
                     <span style="margin-bottom: 10px;">今日点赞最多的菜谱</span>
-                    <span>麻辣小龙虾</span>
-                    <span>灼灼某人</span>
-                    <span>100赞</span>
+                    <img :src="todayVo.likeRecipe.imageUrl" alt="">
+                    <span>{{ todayVo.likeRecipe.title }}</span>
+                    <span>{{ todayVo.likeRecipe.nickName }}</span>
+                    <span>点赞数: {{ todayVo.likeRecipe.likeNumber }}</span>
                 </div>
                 <div>
                     <!-- 当日收藏最多的菜谱介绍 -->
                     <span style="margin-bottom: 10px;">今日收藏最多的菜谱</span>
-                    <span>麻辣小龙虾</span>
-                    <span>灼灼某人</span>
-                    <span>100赞</span>
+                    <img :src="todayVo.favoriteRecipe.imageUrl" alt="">
+                    <span>{{ todayVo.favoriteRecipe.title }}</span>
+                    <span>{{ todayVo.favoriteRecipe.nickName }}</span>
+                    <span>收藏数: {{ todayVo.favoriteRecipe.favoriteNumber }}</span>
                 </div>
             </div>
         </div>
@@ -47,43 +66,38 @@
             <!-- 右边,是总体数据 -->
             <span>总体数据</span>
             <div class="todayIncrement">
-                <div>
-                    <span>站内用户数量</span>
-                    <span style="font-size: 30px;">100个</span>
+                <div class="item">
+                    <img src="@/assets/总用户数量.png">
+                    <div class="content">
+                        <span>站内用户数量</span>
+                        <span style="font-size: 30px;">{{ overAllVo.userNumber }}个</span>
+                    </div>
                 </div>
-                <div>
-                    <span>站内菜谱数量</span>
-                    <span style="font-size: 30px;">500个</span>
+                <div class="item">
+                    <img src="@/assets/Cookbook.png">
+                    <div class="content">
+                        <span>站内菜谱数量</span>
+                        <span style="font-size: 30px;">{{ overAllVo.recipeNumber }}个</span>
+                    </div>
                 </div>
             </div>
             <div class="topTenBox">
-                <div>
+                <div class="topTenItem">
                     <!-- 点赞数量前十 -->
                     <span>全站点赞数量top10</span>
-                    <span>麻辣小龙虾</span>
-                    <span>麻辣小龙虾</span>
-                    <span>麻辣小龙虾</span>
-                    <span>麻辣小龙虾</span>
-                    <span>麻辣小龙虾</span>
-                    <span>麻辣小龙虾</span>
-                    <span>麻辣小龙虾</span>
-                    <span>麻辣小龙虾</span>
-                    <span>麻辣小龙虾</span>
-                    <span>麻辣小龙虾</span>
+                    <span v-for="(item, index) in overAllVo.likeTop10" :key="item.recipeId">{{ index + 1 }} {{
+                        cutStrLength(item.title)
+                    }} <img src="http://47.109.139.173:9000/food.guide/%E7%82%B9%E8%B5%9Eed.png">{{
+                            item.likeNumber }} </span>
                 </div>
-                <div>
+                <div class="topTenItem">
                     <!-- 收藏数量前十 -->
                     <span>全站收藏数量top10</span>
-                    <span>麻辣小龙虾</span>
-                    <span>麻辣小龙虾</span>
-                    <span>麻辣小龙虾</span>
-                    <span>麻辣小龙虾</span>
-                    <span>麻辣小龙虾</span>
-                    <span>麻辣小龙虾</span>
-                    <span>麻辣小龙虾</span>
-                    <span>麻辣小龙虾</span>
-                    <span>麻辣小龙虾</span>
-                    <span>麻辣小龙虾</span>
+                    <span v-for="(item, index) in overAllVo.favoriteTop10" :key="item.recipeId">{{ index + 1 }} {{
+                        cutStrLength(item.title)
+                    }} <img src="http://47.109.139.173:9000/food.guide/admin收藏.png"> {{
+                            item.favoriteNumber
+                        }}</span>
                 </div>
             </div>
         </div>
@@ -92,7 +106,46 @@
 
 <script lang="ts" setup>
 import router from '@/router';
-import { ref } from 'vue'
+import { onBeforeMount, ref } from 'vue'
+import statistics from '@/service/statistics'
+
+const { getToday, getOverAll } = statistics()
+
+let overAllVo = ref({
+    likeTop10: [],
+    favoriteTop10: [],
+    userNumber: 0,
+    recipeNumber: 0
+})
+
+function cutStrLength(text: string) {
+    if (text.length > 5) {
+        return text.substring(0, 5) + '...';
+    }
+    return text;
+}
+
+let todayVo = ref({
+    // 今日点赞最多
+    likeRecipe: {},
+    // 今日收藏最多
+    favoriteRecipe: {},
+    // 今日新增菜谱数
+    recipeAddition: 0,
+    // 今日新增评论数
+    userAddition: 0
+})
+
+
+
+const updatePwd = async () => {
+    // 跳转至修改密码的界面
+}
+
+function toProject() {
+    // 跳转至项目地址
+    window.location.href = "https://github.com/jimmy66886"
+}
 
 const exit = async () => {
     // 退出登录
@@ -100,17 +153,46 @@ const exit = async () => {
     router.push('/')
 }
 
+onBeforeMount(async () => {
+    // 初始数据
+    const res = await getToday()
+    todayVo.value = res.data
+    const overRes = await getOverAll()
+    overAllVo.value = overRes.data
+})
+
 </script>
 
 <style scoped>
+.topTenItem img {
+    width: 20px;
+    height: 20px;
+}
+
+.topTenItem {
+    padding-left: 20px;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    height: 30px;
+    line-height: 30px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .topTenBox div {
     display: flex;
     flex-direction: column;
-    justify-content: left;
+    align-items: left;
     background-color: #f8f8f8;
-    width: 200px;
+    width: 230px;
     height: 300px;
-    padding-left: 20px;
     margin-right: 40px;
     font-size: 20px;
 }
@@ -124,27 +206,41 @@ const exit = async () => {
     flex-direction: column;
     justify-content: left;
     background-color: #f8f8f8;
-    width: 200px;
+    width: 250px;
     height: 300px;
     padding-left: 20px;
     margin-right: 40px;
     font-size: 20px;
 }
 
+.todayBest img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
 .todayBest {
     display: flex;
 }
 
-.todayIncrement div {
-    width: 200px;
+.todayIncrement .item {
+    width: 250px;
     height: 100px;
     background-color: #f8f8f8;
-    display: flex;
-    flex-direction: column;
-    align-items: left;
     line-height: 40px;
-    padding-left: 20px;
     margin-right: 40px;
+}
+
+.todayIncrement img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
 .todayIncrement {
@@ -156,17 +252,19 @@ const exit = async () => {
     width: 50%;
     height: 100%;
     border-right: 1px solid #ccc;
+    margin-left: 10px;
 }
 
 .rightBox {
     width: 50%;
     height: 100%;
-    margin-left: 60px;
+    margin-left: 20px;
 }
 
 .outBox {
     width: 100%;
     height: 90%;
     display: flex;
+    background-color: #EBEDF0;
 }
 </style>
