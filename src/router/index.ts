@@ -33,6 +33,11 @@ const router = createRouter({
           name: 'index',
           component: import('@/components/ManageIndex.vue')
         },
+        {
+          path: 'carousel',
+          name: 'carousel',
+          component: import('@/components/ManageCarousel.vue')
+        }
       ]
     },
     {
