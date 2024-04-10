@@ -35,6 +35,11 @@ const router = createRouter({
         },
       ]
     },
+    {
+      path: '/changePwd',
+      name: 'changePwd',
+      component: import('@/views/ChangePwd.vue')
+    }
   ]
 })
 

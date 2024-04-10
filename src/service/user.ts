@@ -38,5 +38,17 @@ export default function () {
         return res
     }
 
-    return { login, getAllUser, changeStatus }
+    /**
+     * 修改密码
+     */
+    async function changePwd(changePwdDto) {
+        const res = await axios({
+            method: 'POST',
+            url: '/user/changePwd',
+            data: changePwdDto
+        })
+        return res
+    }
+
+    return { changePwd, login, getAllUser, changeStatus }
 }

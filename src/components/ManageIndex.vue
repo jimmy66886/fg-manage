@@ -44,21 +44,27 @@
             </div>
             <div class="todayBest">
                 <!-- 当日点赞最多的菜谱和点赞最多的收藏 -->
-                <div>
-                    <!-- 当日点赞组多的菜谱介绍 -->
+                <div v-if="todayVo.likeRecipe != null">
+                    <!-- 当日点赞最多的菜谱介绍 -->
                     <span style="margin-bottom: 10px;">今日点赞最多的菜谱</span>
                     <img :src="todayVo.likeRecipe.imageUrl" alt="">
                     <span>{{ todayVo.likeRecipe.title }}</span>
                     <span>{{ todayVo.likeRecipe.nickName }}</span>
                     <span>点赞数: {{ todayVo.likeRecipe.likeNumber }}</span>
                 </div>
-                <div>
+                <div v-else>
+                    <span>暂无数据</span>
+                </div>
+                <div v-if="todayVo.favoriteRecipe != null">
                     <!-- 当日收藏最多的菜谱介绍 -->
                     <span style="margin-bottom: 10px;">今日收藏最多的菜谱</span>
                     <img :src="todayVo.favoriteRecipe.imageUrl" alt="">
                     <span>{{ todayVo.favoriteRecipe.title }}</span>
                     <span>{{ todayVo.favoriteRecipe.nickName }}</span>
                     <span>收藏数: {{ todayVo.favoriteRecipe.favoriteNumber }}</span>
+                </div>
+                <div v-else>
+                    <span>暂无数据</span>
                 </div>
             </div>
         </div>
@@ -87,7 +93,7 @@
                     <span>全站点赞数量top10</span>
                     <span v-for="(item, index) in overAllVo.likeTop10" :key="item.recipeId">{{ index + 1 }} {{
                         cutStrLength(item.title)
-                    }} <img src="http://47.109.139.173:9000/food.guide/%E7%82%B9%E8%B5%9Eed.png">{{
+                        }} <img src="http://47.109.139.173:9000/food.guide/%E7%82%B9%E8%B5%9Eed.png">{{
                             item.likeNumber }} </span>
                 </div>
                 <div class="topTenItem">
@@ -95,7 +101,7 @@
                     <span>全站收藏数量top10</span>
                     <span v-for="(item, index) in overAllVo.favoriteTop10" :key="item.recipeId">{{ index + 1 }} {{
                         cutStrLength(item.title)
-                    }} <img src="http://47.109.139.173:9000/food.guide/admin收藏.png"> {{
+                        }} <img src="http://47.109.139.173:9000/food.guide/admin收藏.png"> {{
                             item.favoriteNumber
                         }}</span>
                 </div>
@@ -140,6 +146,7 @@ let todayVo = ref({
 
 const updatePwd = async () => {
     // 跳转至修改密码的界面
+    router.push('/changePwd')
 }
 
 function toProject() {
