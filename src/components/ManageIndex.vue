@@ -45,14 +45,15 @@
             <div class="todayBest">
                 <!-- 当日点赞最多的菜谱和点赞最多的收藏 -->
                 <div v-if="todayVo.likeRecipe != null">
-                    <!-- 当日点赞最多的菜谱介绍 -->
                     <span style="margin-bottom: 10px;">今日点赞最多的菜谱</span>
+                    <!-- 当日点赞最多的菜谱介绍 -->
                     <img :src="todayVo.likeRecipe.imageUrl" alt="">
                     <span>{{ todayVo.likeRecipe.title }}</span>
                     <span>{{ todayVo.likeRecipe.nickName }}</span>
                     <span>点赞数: {{ todayVo.likeRecipe.likeNumber }}</span>
                 </div>
                 <div v-else>
+                    <span style="margin-bottom: 10px;">今日点赞最多的菜谱</span>
                     <span>暂无数据</span>
                 </div>
                 <div v-if="todayVo.favoriteRecipe != null">
@@ -64,6 +65,7 @@
                     <span>收藏数: {{ todayVo.favoriteRecipe.favoriteNumber }}</span>
                 </div>
                 <div v-else>
+                    <span style="margin-bottom: 10px;">今日收藏最多的菜谱</span>
                     <span>暂无数据</span>
                 </div>
             </div>
