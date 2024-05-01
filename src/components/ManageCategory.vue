@@ -31,7 +31,7 @@
     <el-dialog v-model="addCategoryFlag" title="添加分类" width="500" align-center>
         <div class="updateBox">
             <img v-if="categoryItem.img != ''" :src="categoryItem.img">
-            <img v-else src="http://47.109.139.173:9000/food.guide/%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F.jpg">
+            <img v-else src="http://47.109.139.173:9000/food.guide/菜式管理.png">
             <el-upload :show-file-list="false" multiple action="http://localhost:8080/upload"
                 :on-success="handlerUploadSuccess">
                 <template #trigger>
@@ -46,7 +46,7 @@
     </el-dialog>
 
     <el-table :data="mainCategoryList">
-        <el-table-column prop="name" label="大类名" width="200" />
+        <el-table-column prop="name" label="大类名" width="180" />
         <el-table-column label="包含分类" width="600">
             <template #default="scope">
                 <!-- 直接使用v-for遍历吧,不适用table了 -->
